@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TouchController touchController;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private float MoveSpeed;
+
+
+    private void Move(Vector3 direction)
     {
-        
+        rb.velocity = direction * MoveSpeed * Time.fixedDeltaTime;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Rotation(Vector3 rotation)
     {
-        
+        transform.rotation = Quaternion.LookRotation(rotation, Vector3.up);
     }
+
+
+    private void FixedUpdate()
+    {
+        var direction = new Vector3(touchController.Direction.x, y: 0, z: touchController.Direction.y);
+        var rotation = new Vector3(touchController.Rotation.x, y: 0, z: touchController.Rotation.y);
+        Move(direction);
+        Rotation(rotation);
+    }
+
 }
